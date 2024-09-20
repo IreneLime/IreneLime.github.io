@@ -1,6 +1,7 @@
 const projects = [
     {
         name: "Ergonomic Keyboard",
+        date: '2024-02-01',
         alt_name: "keyboard",
         img: "/assets/img/keyboard.jpg",
         short_description: "A personalized ergonomic keyboard implemented with AVR microcontroller.",
@@ -22,6 +23,7 @@ const projects = [
     },
     {
         name: "Spoken Digit AI",
+        date: '2022-05-01',
         alt_name: "cnn",
         img: "/assets/img/cnn.png",
         short_description: "An AI model that recognizes and classifies spoken number of digits.",
@@ -40,6 +42,7 @@ const projects = [
     },
     {
         name: "Mapnify GIS",
+        date: '2022-01-01',
         alt_name: "gis",
         img: "/assets/img/mapnify.png",
         short_description: "A responsive, user-friendly Geographic Information System(GIS) that helps user explore activities and optimal travel route.",
@@ -52,6 +55,8 @@ const projects = [
         link_html: ""
     }
 ];
+
+let sort_proj = projects.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 // Navigate to the project section and only load the first project
 const projects_sect = document.getElementById("projects");
@@ -71,7 +76,7 @@ const button_sect = document.getElementById("project_buttton");
 const project_button = document.createElement("button");
 project_button.name = "load_more";
 project_button.onclick = function(){
-    project_load_more(projects.length)
+    project_load_more(sort_proj.length)
 };
 project_button.innerText = "Load more";
 project_button.style = "height: 80%; width: 50%;";
@@ -87,28 +92,28 @@ function project_load_more(project_num) {
     for (let i = project_start; i < project_num; i++) {
         const new_proj = document.createElement("div");
         new_proj.setAttribute("class", "container");
-        
+
         // Loop through link list and append link references
-        for (let j = 0; j < projects[i].link.length; j++) {
-            projects[i].link_html = projects[i].link_html.concat(`
-                <a aria-label=${projects[i].link[j].label} href=${projects[i].link[j].ref_link}
+        for (let j = 0; j < sort_proj[i].link.length; j++) {
+            sort_proj[i].link_html = sort_proj[i].link_html.concat(`
+                <a aria-label=${sort_proj[i].link[j].label} href=${sort_proj[i].link[j].ref_link}
                 target="_blank" data-position="top" data-tooltip="View Source"
                 class="btn-floating btn-large waves-effect waves-light blue-grey tooltipped"><i
                     class="fa fa-github"></i></a>
             `);
         }
-    
+
         new_proj.innerHTML = `
             <div class="col s12 m6 l4">
                 <div class="card">
                     <div class="card-image waves-effect waves-block waves-light">
-                    <img alt=${projects[i].alt_name} src=${projects[i].img} style="height: 100%; width: 100%" class="activator" />
+                    <img alt=${sort_proj[i].alt_name} src=${sort_proj[i].img} style="height: 100%; width: 100%" class="activator" />
                     </div>
                     <div class="card-content">
-                    <span class="card-title activator teal-text hoverline">${projects[i].name}<i
+                    <span class="card-title activator teal-text hoverline">${sort_proj[i].name}<i
                         class="mdi-navigation-more-vert right"></i></span>
                     <p>
-                        ${projects[i].short_description}
+                        ${sort_proj[i].short_description}
                     </p>
                     </div>
                     <div class="card-reveal">
@@ -117,16 +122,16 @@ function project_load_more(project_num) {
                     <span class="card-title grey-text"><small>Accomplishments</small><i
                         class="mdi-navigation-close right"></i></span>
                     <ul>
-                        ${projects[i].description}
+                        ${sort_proj[i].description}
                     </ul>
                     <div class="card-action">
-                        ${projects[i].link_html}
+                        ${sort_proj[i].link_html}
                     </div>
                     </div>
                 </div>
             </div>
         `;
-    
+
         // Append HTML of a project to the project section
         projects_sect.appendChild(new_proj);
     }
